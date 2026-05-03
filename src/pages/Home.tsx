@@ -113,7 +113,7 @@ export default function Home() {
           style={{ filter: "brightness(0.7) saturate(0.8)" }}
         />
         <div className="absolute inset-0 bg-[hsl(220,25%,8%)]/60 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-175 bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
         <div
           className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none"
           style={{
@@ -310,7 +310,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <ContactForm /> */}
+      <ContactForm />
 
       {/* FOOTER */}
       <footer className="py-16 border-t border-border">

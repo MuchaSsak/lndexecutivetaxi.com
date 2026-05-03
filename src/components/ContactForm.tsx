@@ -3,11 +3,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import RevealSection from "@/components/ui/reveal-section";
 
 type ContactFormProps = {};
 
 type ContactFormData = z.infer<typeof contactSchema>;
+
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "";
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "";
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "";
+const EMAILJS_TO_EMAIL =
+  import.meta.env.VITE_EMAILJS_TO_EMAIL ?? "lndexecutivetaxi@gmail.com";
+const EMAILJS_CONFIGURED = Boolean(
+  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
+);
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -29,6 +39,7 @@ export default function ContactForm({}: ContactFormProps) {
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+    mode: "onChange",
     defaultValues: {
       name: "",
       phone: "",
@@ -39,15 +50,65 @@ export default function ContactForm({}: ContactFormProps) {
     },
   });
 
-  const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true);
-    await new Promise((res) => setTimeout(res, 1200));
-    setIsSubmitting(false);
-    reset();
+  const onError = (errors: any) => {
+    console.log("Validation Errors:", errors);
     toast({
-      title: "Booking request sent",
-      description: `Thank you, ${data.name}. Lukasz or Darek will confirm your ride shortly.`,
+      title: "Registration Failed",
+      description: "Please check the highlighted fields and try again.",
+      variant: "destructive",
     });
+  };
+
+  const onSubmit = (data: ContactFormData) => {
+    if (!EMAILJS_CONFIGURED) {
+      toast({
+        title: "EmailJS not configured",
+        description:
+          "Set VITE_EMAILJS_PUBLIC_KEY in your environment before sending bookings.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    (async () => {
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            name: data.name,
+            phone: data.phone,
+            pickup: data.pickup,
+            destination: data.destination,
+            datetime: new Intl.DateTimeFormat("en-GB", {
+              dateStyle: "long",
+              timeStyle: "full",
+              timeZone: "Europe/London",
+            }).format(new Date(data.datetime)),
+            message: data.message || "",
+            to_email: EMAILJS_TO_EMAIL,
+          },
+          EMAILJS_PUBLIC_KEY,
+        );
+
+        reset();
+        toast({
+          title: "Booking request sent",
+          description: `Thank you, ${data.name}. Lukasz or Darek will confirm your ride shortly.`,
+        });
+      } catch (error) {
+        console.error("EmailJS error", error);
+        toast({
+          title: "Unable to send booking request",
+          description: "Please try again in a moment or contact us directly.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+    })();
   };
 
   return (
@@ -65,7 +126,7 @@ export default function ContactForm({}: ContactFormProps) {
 
         <RevealSection delay={0.15}>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit, onError)}
             className="bg-card border border-card-border rounded-2xl p-8 space-y-5"
           >
             <div className="grid sm:grid-cols-2 gap-5">
@@ -74,7 +135,7 @@ export default function ContactForm({}: ContactFormProps) {
                   className="block text-sm font-medium mb-2"
                   htmlFor="name"
                 >
-                  Full name
+                  Name
                 </label>
                 <input
                   id="name"
