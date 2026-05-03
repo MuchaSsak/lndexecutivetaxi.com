@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/MuchaSsak/lndexecutivetaxi.com/compare/v1.0.2...v1.1.0) (2026-05-03)
+
+
+### Features
+
+* add contact form ([cee2504](https://github.com/MuchaSsak/lndexecutivetaxi.com/commit/cee25045cbfca9ffccefaab99d3804820da1029b))
+
+
+
 ## [1.0.2](https://github.com/MuchaSsak/lndexecutivetaxi.com/compare/v1.0.1...v1.0.2) (2026-05-03)
 
 
