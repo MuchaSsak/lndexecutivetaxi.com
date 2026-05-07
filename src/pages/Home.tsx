@@ -92,6 +92,7 @@ export default function Home() {
           </div>
           <a
             href="tel:+447762167579"
+            aria-label="Call L&D Executive Taxi"
             data-testid="nav-phone"
             className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold hover:bg-primary/90 transition-colors"
           >
@@ -105,7 +106,7 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <img
           src="/background.jpg"
-          alt=""
+          alt="Luxury BMW 7 Series executive taxi"
           aria-hidden="true"
           fetchPriority="high"
           decoding="sync"
@@ -139,9 +140,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-5xl md:text-7xl lg:text-8xl font-serif font-black leading-none mb-6"
           >
-            Your journey,
+            Your Taxi Journey
             <br />
-            <span className="text-primary">on time.</span>
+            <span className="text-primary">Right on Time</span>
           </motion.h1>
 
           <motion.p
@@ -170,6 +171,7 @@ export default function Home() {
             </a>
             <a
               href="tel:+447762167579"
+              aria-label="Call L&D Executive Taxi"
               className="border border-border text-foreground px-8 py-4 rounded-full text-base font-semibold hover:border-primary hover:text-primary transition-all"
             >
               Call Us Now
@@ -335,6 +337,7 @@ export default function Home() {
               <div className="space-y-3">
                 <a
                   href="tel:+447762167579"
+                  aria-label="Call L&D Executive Taxi"
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors text-sm"
                 >
                   <Phone className="w-4 h-4" />
