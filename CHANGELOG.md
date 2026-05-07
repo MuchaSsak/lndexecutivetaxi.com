@@ -1,3 +1,12 @@
+## [1.1.1](https://github.com/MuchaSsak/lndexecutivetaxi.com/compare/v1.1.0...v1.1.1) (2026-05-07)
+
+
+### Bug Fixes
+
+* add metadata ([126e20e](https://github.com/MuchaSsak/lndexecutivetaxi.com/commit/126e20e962597d1fe554f0dd4bde86e65f5c62aa))
+
+
+
 # [1.1.0](https://github.com/MuchaSsak/lndexecutivetaxi.com/compare/v1.0.2...v1.1.0) (2026-05-03)
 
 
